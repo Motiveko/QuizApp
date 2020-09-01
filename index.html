@@ -1,0 +1,160 @@
+
+<!-- Vue.js 기초  -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <title>Document</title>
+    <style>
+        .red {
+            background-color: red;
+        }
+
+        .green {
+            background-color: green;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root">
+        <!-- v-text : tag안에 data가 text로 들어간다. v-model처럼 동기화됨 -->
+        <p v-text="email"> </p>
+        <!-- v-html : tag안에 data가 html 들어간다. v-model처럼 동기화됨 -->
+        <p v-html="email"> </p>
+
+        <hr>
+        <!-- v-once는 맨 처음에 한번만 로딩한다. static -->
+        <p v-once>{{email}}</p>
+        <p> {{email}} </p>
+        <h1>{{ greeting }}</h1>
+        <!-- data binding, greeting과 input의 value가 동기화된다. -->
+        <input v-model="email" :class="{red: email.length < 10}">
+        <input v-model="email" :class="[email.length < 10 ? 'red' : 'green']">
+
+
+        <!-- v-if directive -->
+        <div v-if="count==1">
+            true
+        </div>
+        <div v-else>
+            not true
+        </div>
+        <!-- v-show 조건이 맞으면 랜더링, 아니라도 dom에 존재하고 display:none -->
+        <div v-show="count===1">Green</div>
+        <!-- v-bind:(disabled() = "조건" 조건이 맞으면 disabled , : 라고 써도 동작-->
+        <button onclick="alert('Singed up!')" v-bind:disabled="email.length < 10">Submit</button>
+
+        <!-- v-for -->
+        <ul>
+            <li v-for="cat in cats">{{cat}}</li>
+        </ul>
+        <!-- filter : | filtername 으로 걸어줄 수 있다. 랜더링 되는것만 바뀐다. captialize, masterize는 filters property에 정의해야한다. -->
+        <ul>
+            <li v-for="dog in dogs">{{dog.name | captialize | masterize }}</li>
+        </ul>
+
+        <!-- method -->
+        <hr>
+        <input v-model="newCat" v-on:keyup.enter="addCat" >
+        <!-- prevent : preventDefault, stop: stop propagation? -->
+        <button @click.prevent.stop="addCat">
+            Add
+        </button>
+        <!-- computed -->
+        {{ kittifyName }}
+
+        <!-- Component , :cats == v-bind:cats, 부모 component의 cats를 자식의 catss에다가 binding해준다.-->
+        <cat-list :catss="cats"/>
+
+        <!-- Vue lifeCycles :: created, mounted, updated, destroyed-->
+    </div>
+    <script>
+        Vue.component('cat-list', {
+            props : ['catss'],
+            template:`
+                <ul>
+                    <li v-for="cat in catss">{{cat}}</li>
+                <ul>
+            `
+        })
+        var app = new Vue({
+            el: '#root',
+            components: [
+                'cat-list'
+            ],
+            data: {
+                greeting: "Hello Vue!",
+                count: 1,
+                email: 'rhehdrla@naver.com',
+                cats: [
+                    'cat1',
+                    'cat2',
+                    'cat3',
+                    'cat4'
+                ],
+                newCat: "",
+                dogs: [{
+                        name: 'dog1'
+                    },
+                    {
+                        name: 'dog2'
+                    },
+                    {
+                        name: 'dog3'
+                    },
+                    {
+                        name: 'dog4'
+                    }
+                ]
+            },
+            methods: {
+                addCat: function(){
+                    
+                    this.cats.push(this.newCat);
+                    this.newCat="";
+                    
+                }
+            },
+            created: function(){
+                console.log("created");
+            },
+            mounted: function(){
+                console.log("mounted");
+            },
+            updated: function(){
+                console.log("updated");
+            },
+            destroyed: function(){
+                console.log("destroyed");
+            },
+            filters: {
+                captialize: function(value){
+                    return value.toUpperCase();
+                },
+                masterize: function(value){
+                    return `motiveko's ${value}`
+                }
+            },
+            computed: {
+                kittifyName: function(){
+                    if(this.newCat.length > 1){
+                        return this.newCat + 'y';
+                    }
+                }
+            }
+        })
+
+        setTimeout(function(){
+            app.$destroy();
+        },3000)
+    </script>
+</body>
+
+</html>
