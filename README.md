@@ -28,3 +28,6 @@ npm run test
 ```
 npm run lint
 ```
+
+<img width="1680" alt="캡쳐1" src="https://user-images.githubusercontent.com/58010269/92014894-eadf6480-ed8a-11ea-9763-a35e9b6c9df5.png">
+<img width="1680" alt="캡쳐2" src="https://user-images.githubusercontent.com/58010269/92014901-edda5500-ed8a-11ea-904b-37d866d97938.png">
