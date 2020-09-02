@@ -24,19 +24,26 @@
           </b-col>
         </b-row>
       </b-container>
-
+      <Popup 
+        :numCorrect="numCorrect"
+        :numTotal="numTotal"  
+      />
   </div>
+
+
 </template>
 
 <script>
 import Header from './components/Header.vue'
 import QuestionBox from './components/QuestionBox.vue'
+import Popup from './components/Popup.vue'
 
 export default {
   name: 'app',
   components: {
     Header,
-    QuestionBox
+    QuestionBox,
+    Popup
   },
   data() {
     return {
@@ -83,4 +90,7 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
+
+
 </style>

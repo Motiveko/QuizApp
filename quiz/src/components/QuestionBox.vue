@@ -30,10 +30,12 @@
                 v-on:click="submitAnswer"    
                 :disabled="selectedIndex === null || answerd"    
             >Submit</b-button>
-            <b-button @click="next" variant="success" >
+            <b-button 
+                @click="next" 
+                variant="success"
+                :disabled="!answerd" >
                 Next
             </b-button>
-
         </b-jumbotron>
     </div>    
 </template>
